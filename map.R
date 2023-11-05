@@ -24,12 +24,12 @@ pal_d<-colorBin(palette =  c('#006837','#a6d96a','#ffffbf','#fdae61','#a50026'),
                 domain = shape_data$ACC, bins = 5)
 
 #Побудова картограми
-map<-leaflet()%>%addTiles()%>%
+map<-leaflet()%>%setMaxBounds(20,45,41,53) %>% addTiles()%>%
   addPolygons(data=shape_data_2021,group = "2021",
               weight=1,fillOpacity = 0.6,
               color = pal_d (shape_data_2021$ACC),
               popup = ~paste0("<b>", ADM1_UA, "</b>", 
-                  "<br/>","Кількість облікованих проваджень у 2021 році:", ACC),
+                  "<br/>","Кількість облікованих проваджень у 2021 році: ", ACC),
               highlight = highlightOptions(weight = 3, color = "white"))%>%
   addPolygons(data=shape_data_2022,group = "2022",
               weight=1,fillOpacity = 0.6,
@@ -37,7 +37,10 @@ map<-leaflet()%>%addTiles()%>%
               popup = ~paste0("<b>", ADM1_UA, "</b>", 
                   "<br/>","Кількість облікованих проваджень у 2022 році:", ACC),
               highlight = highlightOptions(weight = 3, color = "white"))%>%
-  addLayersControl(baseGroups = c("2021","2022"), )
+  addLayersControl(baseGroups = c("2021","2022"), )%>%
+  addControl(html = "Географічний розподіл проваджень, 
+облікованих у 2021 та 2022 роках за ознаками крадіжки",position = "bottomright")
+
 
 # Виведення картограми у вікно Viewer
 map
